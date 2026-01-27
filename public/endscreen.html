@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Stream End Screen</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+
+      /* Animations only */
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .anim-msg {
+        animation: fadeOut 1s ease-in-out 8s forwards;
+      }
+      .anim-social {
+        animation: fadeIn 1s 9s forwards, fadeOut 1s 16s forwards;
+      }
+      .anim-stats {
+        animation: fadeIn 2s 17s forwards, fadeOut 2s 27s forwards;
+      }
+      .anim-end {
+        animation: fadeIn 3s 29s forwards;
+      }
+      .anim-end h1 {
+        animation: pulse 2s 30s infinite;
+      }
+      .anim-slide {
+        animation: slideIn 0.3s forwards;
+      }
+
+      .social-1 {
+        animation-delay: 10s !important;
+      }
+      .social-2 {
+        animation-delay: 10.3s !important;
+      }
+      .social-3 {
+        animation-delay: 10.6s !important;
+      }
+      .social-4 {
+        animation-delay: 10.9s !important;
+      }
+
+      .item-0 {
+        animation-delay: 18s !important;
+      }
+      .item-1 {
+        animation-delay: 18.2s !important;
+      }
+      .item-2 {
+        animation-delay: 18.4s !important;
+      }
+      .item-3 {
+        animation-delay: 18.6s !important;
+      }
+      .item-4 {
+        animation-delay: 18.7s !important;
+      }
+      .item-5 {
+        animation-delay: 18.8s !important;
+      }
+      .item-6 {
+        animation-delay: 18.9s !important;
+      }
+      .item-7 {
+        animation-delay: 19s !important;
+      }
+      .item-8 {
+        animation-delay: 19.1s !important;
+      }
+      .item-9 {
+        animation-delay: 19.2s !important;
+      }
+    </style>
+  </head>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+  ></script>
+  <body
+    class="w-[1920px] h-[1080px] bg-black text-white overflow-hidden"
+    x-data="endScreen()"
+    x-init="loadData()"
+  >
+    <!-- Thank you message (0-8s) -->
+    <div class="fixed w-full top-[40%] text-center opacity-100 anim-msg">
+      <div
+        class="inline-block bg-blue-400 text-white px-10 py-5 rounded-lg text-5xl font-bold uppercase max-w-[1400px] leading-relaxed"
+      >
+        Merci d'avoir regardé ! 💜<br />
+        N'oubliez pas de follow pour le prochain stream !
+      </div>
+    </div>
+
+    <!-- Social links (9-16s) -->
+    <div
+      class="fixed w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0 anim-social"
+    >
+      <h2 class="text-6xl mb-16 text-gray-400 font-bold uppercase">
+        Retrouvez-moi sur
+      </h2>
+      <div class="flex flex-col gap-8 items-center">
+        <template x-for="(social, i) in socials" :key="social.name">
+          <div
+            :class="'bg-gray-900 text-white text-4xl px-12 py-5 rounded-lg border-l-4 min-w-[700px] text-left font-bold opacity-0 anim-slide social-' + (i + 1)"
+            :style="'border-left-color: ' + social.color"
+          >
+            <i :class="social.icon + ' mr-4 w-8 text-center'"></i>
+            <span x-text="social.url"></span>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- Stats section (17-27s) -->
+    <div
+      class="fixed w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0 anim-stats"
+    >
+      <h2 class="text-6xl mb-12 text-gray-400 font-bold uppercase">
+        <i class="fas fa-trophy"></i> Classements du Stream
+      </h2>
+      <div class="grid grid-cols-2 gap-16 max-w-[1700px] mx-auto px-12">
+        <!-- Top Chatters -->
+        <div class="flex flex-col">
+          <h3 class="text-4xl mb-8 text-blue-400 font-bold uppercase">
+            <i class="fas fa-comments"></i> Top Chatteurs
+          </h3>
+          <div class="flex flex-col gap-4">
+            <template x-if="chatters.length === 0">
+              <div class="bg-gray-900 px-6 py-4 rounded-lg text-center">
+                Aucune donnée
+              </div>
+            </template>
+            <template x-for="(chatter, i) in chatters" :key="chatter.username">
+              <div
+                :class="'bg-gray-900 px-6 py-4 rounded-lg flex justify-between items-center text-3xl border-l-4 opacity-0 anim-slide item-' + i"
+                :style="'border-left-color: ' + getBorderColor(i)"
+              >
+                <span
+                  class="text-gray-400 font-bold mr-4 text-3xl"
+                  x-html="getRankIcon(i) + ' #' + (i + 1)"
+                ></span>
+                <span
+                  class="flex-1 text-left font-bold"
+                  x-text="chatter.username"
+                ></span>
+                <span class="text-green-400 font-bold text-2xl">
+                  <i class="fas fa-comment"></i>
+                  <span x-text="chatter.count"></span>
+                </span>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Top Viewers -->
+        <div class="flex flex-col">
+          <h3 class="text-4xl mb-8 text-blue-400 font-bold uppercase">
+            <i class="fas fa-star"></i> Top Viewers
+          </h3>
+          <div class="flex flex-col gap-4">
+            <template x-if="viewers.length === 0">
+              <div class="bg-gray-900 px-6 py-4 rounded-lg text-center">
+                Aucune donnée
+              </div>
+            </template>
+            <template x-for="(viewer, i) in viewers" :key="viewer.username">
+              <div
+                :class="'bg-gray-900 px-6 py-4 rounded-lg flex justify-between items-center text-3xl border-l-4 opacity-0 anim-slide item-' + i"
+                :style="'border-left-color: ' + getBorderColor(i)"
+              >
+                <span
+                  class="text-gray-400 font-bold mr-4 text-3xl"
+                  x-html="getRankIcon(i) + ' #' + (i + 1)"
+                ></span>
+                <span
+                  class="flex-1 text-left font-bold"
+                  x-text="viewer.username"
+                ></span>
+                <span class="text-green-400 font-bold text-2xl">
+                  <i class="fas fa-coins"></i>
+                  <span x-text="viewer.points"></span>
+                </span>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- End screen (29s+) -->
+    <div
+      class="fixed w-full h-full flex flex-col items-center justify-center opacity-0 anim-end"
+    >
+      <h1 class="text-[200px] font-black text-white uppercase mb-8">END</h1>
+      <div class="text-8xl text-gray-600 font-bold uppercase">FIN</div>
+    </div>
+
+    <div class="fixed w-full bottom-20 text-3xl text-gray-600 text-center">
+      Stream terminé • Merci d'avoir regardé
+    </div>
+
+    <script>
+      function endScreen() {
+        return {
+          chatters: [],
+          viewers: [],
+          socials: [
+            {
+              name: "website",
+              icon: "fas fa-globe",
+              url: "meteor314.com/social/",
+              color: "#4ec7f3",
+            },
+            {
+              name: "discord",
+              icon: "fab fa-discord",
+              url: "meteor314.com/discord/",
+              color: "#42c58a",
+            },
+            {
+              name: "youtube",
+              icon: "fab fa-youtube",
+              url: "meteor314.com/youtube/",
+              color: "#f39c12",
+            },
+            {
+              name: "twitch",
+              icon: "fab fa-twitch",
+              url: "meteor314.com/twitch/",
+              color: "#dc143c",
+            },
+          ],
+
+          async loadData() {
+            try {
+              const response = await fetch("./topchatters.json");
+              const data = await response.json();
+              this.chatters = data.chatters || [];
+              this.viewers = data.viewers || [];
+            } catch (error) {
+              console.error("Failed to load data:", error);
+            }
+          },
+
+          getRankIcon(index) {
+            const icons = [
+              '<i class="fas fa-trophy"></i>',
+              '<i class="fas fa-medal"></i>',
+              '<i class="fas fa-award"></i>',
+              '<i class="fas fa-star"></i>',
+            ];
+            return icons[index] || icons[3];
+          },
+
+          getBorderColor(index) {
+            const colors = ["#ffd700", "#c0c0c0", "#cd7f32"];
+            return colors[index] || "#4ec7f3";
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

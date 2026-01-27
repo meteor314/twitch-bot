@@ -1,0 +1,28 @@
+{
+  "name": "twitchBot",
+  "version": "1.0.0",
+  "description": "A modular and reliable Twitch bot",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "get-token": "node get-token.js"
+  },
+  "keywords": [
+    "twitch",
+    "bot",
+    "chat"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@twurple/auth": "^7.1.0",
+    "@twurple/chat": "^7.1.0",
+    "axios": "^1.7.2",
+    "better-sqlite3": "^12.5.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "open": "^10.1.0"
+  }
+}

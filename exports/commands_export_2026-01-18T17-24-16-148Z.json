@@ -1,0 +1,167 @@
+{
+  "exported_at": "2026-01-18T17:24:16.148Z",
+  "bot_name": "twitchBot",
+  "channel": "meteor_314",
+  "total_commands": 20,
+  "hardcoded_commands": [
+    {
+      "name": "add",
+      "description": "Ajoute une commande personnalisée (Mod/Owner uniquement)",
+      "usage": "!add",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "alias",
+      "description": "Créer un alias pour une commande existante (Mod/Owner uniquement)",
+      "usage": "!alias <alias> <command> | !alias list | !alias remove <alias>",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "ban",
+      "description": "Bannir un utilisateur du chat (Mod uniquement)",
+      "usage": "!ban @username [reason]",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "clip",
+      "description": "Crée un clip des 30 dernières secondes",
+      "usage": "!clip",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "commands",
+      "description": "Affiche le lien vers la liste complète des commandes",
+      "usage": "!commands",
+      "access": "Everyone",
+      "aliases": ["commandes", "help", "aide"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "edit",
+      "description": "Modifie une commande personnalisée (Mod/Owner uniquement)",
+      "usage": "!edit",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "endscreen",
+      "description": "Exporte les données pour l",
+      "usage": "!endscreen",
+      "access": "Mod/Owner",
+      "aliases": ["exportchatters", "saveendscreen", "end"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "leaderboard",
+      "description": "Affiche le classement des meilleurs viewers",
+      "usage": "!leaderboard",
+      "access": "Everyone",
+      "aliases": ["top", "classement"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "rank",
+      "description": "Affiche tes points et ton rang",
+      "usage": "!rank",
+      "access": "Everyone",
+      "aliases": ["points", "score"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "remove",
+      "description": "Supprime une commande personnalisée (Mod/Owner uniquement)",
+      "usage": "!remove",
+      "access": "Mod/Owner",
+      "aliases": ["delete", "del"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "removeschedule",
+      "description": "Supprime un message planifié (Owner)",
+      "usage": "!removeschedule",
+      "access": "Owner",
+      "aliases": ["delschedule"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "schedule",
+      "description": "Ajoute un message planifié (Owner uniquement)",
+      "usage": "!schedule",
+      "access": "Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "schedules",
+      "description": "Liste tous les messages planifiés (Mod/Owner)",
+      "usage": "!schedules",
+      "access": "Mod/Owner",
+      "aliases": ["messages", "automsgs"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "timeout",
+      "description": "Mettre un utilisateur en timeout (Mod uniquement)",
+      "usage": "!timeout @username <minutes> [reason]",
+      "access": "Mod/Owner",
+      "aliases": ["to"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "title",
+      "description": "Change le titre du stream (Mod/Propriétaire uniquement)",
+      "usage": "!title",
+      "access": "Mod/Owner",
+      "aliases": [],
+      "type": "hardcoded"
+    },
+    {
+      "name": "toggleschedule",
+      "description": "Active/désactive un message planifié (Owner)",
+      "usage": "!toggleschedule",
+      "access": "Owner",
+      "aliases": ["toggle"],
+      "type": "hardcoded"
+    },
+    {
+      "name": "topchatters",
+      "description": "Affiche les 10 utilisateurs les plus actifs du stream actuel",
+      "usage": "!topchatters",
+      "access": "Everyone",
+      "aliases": ["topactive", "active"],
+      "type": "hardcoded"
+    }
+  ],
+  "custom_commands": [
+    {
+      "name": "discord",
+      "response": "Rejoins notre Discord: https://discord.gg/feSFNbgSEH. Et n'oublie pas de check les autres réseaux sociaux : https://meteor314.com/social/",
+      "created_by": "meteor_314",
+      "use_count": 1,
+      "created_at": "2026-01-08 23:29:15"
+    },
+    {
+      "name": "lurk",
+      "response": "{user} se cache dans l'ombre  À bientôt !",
+      "created_by": "meteor_314",
+      "use_count": 0,
+      "created_at": "2026-01-08 23:29:15"
+    },
+    {
+      "name": "socials",
+      "response": "Tous mes réseaux sociaux: https://meteor314.com/fr/social.html ",
+      "created_by": "meteor_314",
+      "use_count": 0,
+      "created_at": "2026-01-08 23:29:15"
+    }
+  ]
+}

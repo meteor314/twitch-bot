@@ -1,0 +1,96 @@
+name: Version and Tag
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  version-and-tag:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip ci]')
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: Increment Version and Update Changelog
+        id: version
+        run: |
+          # Read current version or initialize to 0.0.0
+          if [ -f VERSION ]; then
+            CURRENT_VERSION=$(cat VERSION | tr -d '[:space:]')
+          else
+            CURRENT_VERSION="0.0.0"
+          fi
+
+          echo "Current version: $CURRENT_VERSION"
+
+          # Parse version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+
+          # Check if patch >= 10, then increment minor and reset patch
+          if [ $PATCH -ge 10 ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          fi
+
+          # Check if minor >= 10, then increment major and reset minor
+          if [ $MINOR -ge 10 ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+          fi
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "New version: $NEW_VERSION"
+
+          # Update VERSION file
+          echo "$NEW_VERSION" > VERSION
+
+          # Get commit messages since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" --reverse)
+          else
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s (%h)" --reverse)
+          fi
+
+          # Update changelog
+          TEMP_FILE=$(mktemp)
+          echo "## Version $NEW_VERSION ($(date +%Y-%m-%d))" > $TEMP_FILE
+          echo "" >> $TEMP_FILE
+          if [ -n "$COMMITS" ]; then
+            echo "$COMMITS" >> $TEMP_FILE
+          else
+            echo "- No new commits" >> $TEMP_FILE
+          fi
+          echo "" >> $TEMP_FILE
+
+          # Prepend to existing changelog or create new one
+          if [ -f changelog.md ]; then
+            cat changelog.md >> $TEMP_FILE
+          fi
+          mv $TEMP_FILE changelog.md
+
+          # Export version for next steps
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+          # Commit and push changes
+          git add VERSION changelog.md
+          git commit -m "chore: bump version to $NEW_VERSION [skip ci]" || echo "No changes to commit"
+          git push origin master || echo "Failed to push changes"
+
+      - name: Create and Push Tag
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new_version }}"
+          git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
+          git push origin "v$NEW_VERSION"
